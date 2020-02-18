@@ -3,6 +3,11 @@ import { render } from '@testing-library/react';
 import Dashboard from '../Dashboard.jsx';
 
 test('renders Dashboard with correct heading', () => {
-    const { getByRole } = render(<Dashboard />);
-    expect(getByRole('heading')).toHaveTextContent('Please select card type:');
+    const { queryAllByText } = render(<Dashboard />);
+    expect(queryAllByText('Please select card type:'));
+});
+
+test('renders Dashboard with one set of cards', () => {
+    const { getByText } = render(<Dashboard />);
+    expect(getByText('Goblins')); 
 });
