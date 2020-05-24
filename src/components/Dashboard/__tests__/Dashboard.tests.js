@@ -3,11 +3,11 @@ import { render } from '@testing-library/react';
 import Dashboard from '../Dashboard';
 
 test('renders Dashboard with correct heading', () => {
-  const { queryAllByText } = render(<Dashboard />);
-  expect(queryAllByText('Please select card type:'));
+  const { getByText } = render(<Dashboard />);
+  expect(getByText('Select pack of trumps:')).toBeTruthy();
 });
 
 test('renders Dashboard with one set of cards', () => {
   const { getByText } = render(<Dashboard />);
-  expect(getByText('GOBLINS'));
+  expect(getByText('GOBLINS')).toBeTruthy();
 });

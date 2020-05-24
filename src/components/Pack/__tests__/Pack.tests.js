@@ -15,7 +15,7 @@ test('renders a pack cover', () => {
       onClick={jest.fn()}
     />,
   );
-  expect(getByText(PACK_TITLE));
+  expect(getByText(PACK_TITLE)).toBeTruthy();
 });
 
 test('calls "onClick" when pack cover is selected', () => {
@@ -31,5 +31,5 @@ test('calls "onClick" when pack cover is selected', () => {
   );
 
   fireEvent.click(getByText(PACK_TITLE));
-  expect(onClick).toHaveBeenCalled();
+  expect(onClick).toHaveBeenCalledTimes(1);
 });
