@@ -1,35 +1,28 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import PackStyled from './Pack.styled';
 
-class Pack extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSelected: true,
-    };
+const Pack = ({ title, cover, imgAlt, onClick }) => {
+  const [selected, setSelected] = useState(false);
 
-    this.selectPack = this.selectPack.bind(this);
-  }
+  const changeSelection = () => {
+    setSelected(!selected);
+    onClick(selected);
+  };
 
-  selectPack() {
-    this.setState((state) => ({
-      isSelected: !state.isSelected,
-    }));
-  }
+  return (
+    <PackStyled onClick={changeSelection}>
+      <h3>{title.toUpperCase()}</h3>
+      <img className="pack__cover" src={cover} alt={imgAlt} />
+    </PackStyled>
+  );
+};
 
-  render() {
-    return (
-      <PackStyled>
-        <h3>{this.props.title}</h3>
-        <img
-          className="pack__cover"
-          src={this.props.cover}
-          alt={this.props.imgAlt}
-        />
-        <p className="pack__prompt">SELECT</p>
-      </PackStyled>
-    );
-  }
-}
+Pack.propTypes = {
+  title: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
+  imgAlt: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default Pack;
