@@ -10,7 +10,7 @@ const FIRST_PACK = 'goblins';
 const SECOND_PACK = 'dinosaurs';
 
 const Dashboard = () => {
-  const [isShown, setIsShown] = useState(true); //TODO: set back to true
+  const [isShown, setIsShown] = useState(false); //TODO: set back to true
   const [pack, setPack] = useState(FIRST_PACK);
 
   const onClick = (pack) => {
