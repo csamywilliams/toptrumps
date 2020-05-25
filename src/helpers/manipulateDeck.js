@@ -7,7 +7,6 @@ const shuffleDeck = (data) => {
 
 const splitDeck = (cards) => {
   const data = [...cards];
-
   const half = Math.ceil(data.length / 2);
 
   return {
