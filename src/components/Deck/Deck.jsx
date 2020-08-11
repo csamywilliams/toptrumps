@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DeckStyled from './Deck.styled';
 import Card from '../Card/Card';
 
-const Deck = ({ pack, type }) => {
+const Deck = ({ pack, type, compareCards }) => {
 	const [cards, setCards] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [count, setCount] = useState(0);
@@ -22,7 +22,13 @@ const Deck = ({ pack, type }) => {
 
 	return (
 		<DeckStyled>
-			{!isLoading && <Card activeCard={activeCard} />}
+			{!isLoading && (
+				<Card
+					activeCard={activeCard}
+					mode={type}
+					compareCards={compareCards}
+				/>
+			)}
 		</DeckStyled>
 	);
 };
