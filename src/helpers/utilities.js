@@ -6,4 +6,13 @@ const isValueSame = (val1, val2) => {
 	return val1 === val2;
 };
 
-export { isValueGreater, isValueSame };
+const removeFromArray = (arr, id) => {
+	return arr.filter((el) => el.id !== id);
+};
+
+const addToArray = (arr, item) => {
+	arr.push(item);
+	return arr;
+};
+
+export { isValueGreater, isValueSame, removeFromArray, addToArray };

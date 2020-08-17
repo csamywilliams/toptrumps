@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 import GameStyled from './Game.styled';
 import Deck from '../Deck/Deck';
 import { shuffleDeck, splitDeck } from '../../helpers/manipulateDeck';
-import { isValueGreater, isValueSame } from '../../helpers/utilities';
-
+import {
+	isValueGreater,
+	isValueSame,
+	removeFromArray,
+	addToArray,
+} from '../../helpers/utilities';
+import CONSTANTS from '../../data/constants';
 import CARDS from '../../data/cards';
 
 const Game = ({ pack }) => {
 	const [playersPack, setPlayersPack] = useState([]);
 	const [computersPack, setComputersPack] = useState([]);
 	const [cards, setCards] = useState([]);
-	const [turnPlayer, setPlayerTurn] = useState(true);
+	const [playerTurn, setPlayerTurn] = useState(true);
 	const [playerCard, setPlayerCard] = useState({});
 	const [computerCard, setComputerCard] = useState({});
 
@@ -27,10 +32,39 @@ const Game = ({ pack }) => {
 		setComputerCard(deckHalved.computer[0]);
 	}, [cards, pack]);
 
+	useEffect(() => {
+		console.log('players turn' + playerTurn);
+	}, [playerTurn]);
+
+	const changePlayerDeck = () => {
+		console.log('playerWon', playerCard.id, computerCard.id);
+		const alteredComputersPack = removeFromArray(
+			computersPack,
+			computerCard.id,
+		);
+		const alteredPlayersPack = addToArray(playersPack, computerCard);
+
+		setPlayersPack(alteredPlayersPack);
+		setComputersPack(alteredComputersPack);
+		removeCardsFromView(playerCard, computerCard);
+	};
+
+	const changeComputerDeck = () => {
+		console.log('computerWon', playerCard.id, computerCard.id);
+		const alteredPlayersPack = removeFromArray(playersPack, playersPack.id);
+		const alteredComputersPack = addToArray(computersPack, playerCard);
+
+		setPlayersPack(alteredPlayersPack);
+		setComputersPack(alteredComputersPack);
+	};
+
+	const removeCardsFromView = () => {};
+
 	const checkTurn = (card1, card2) => {
 		if (isValueGreater(card1, card2) || isValueSame(card1, card2)) {
 			console.log('value is greater or the same', 'playerWins');
 			setPlayerTurn(true);
+			changePlayerDeck();
 			return;
 		}
 
@@ -38,29 +72,32 @@ const Game = ({ pack }) => {
 
 		console.log('computerWins');
 		setPlayerTurn(false);
+		changeComputerDeck();
 		return;
 	};
 
-	const compareCard = (key, property, mode) => {
-		console.log(key, property, mode, playerCard, computerCard);
+	const compareCard = (id, key, property, mode) => {
+		console.log(id, key, property, mode, playerCard, computerCard);
 
-		const turn = checkTurn(playerCard[key], computerCard[key]);
+		checkTurn(playerCard[key], computerCard[key]);
+
+		//changeCards();
 	};
 
 	return (
 		<GameStyled>
 			<div>
-				Your cards
+				Your cards {playersPack.length}
 				<Deck
-					type="player"
+					type={CONSTANTS.PLAYER}
 					pack={playersPack}
 					compareCards={compareCard}
 				/>
 			</div>
 			<div>
-				Computer cards
+				Computer cards {computersPack.length}
 				<Deck
-					type="computer"
+					type={CONSTANTS.COMPUTER}
 					pack={computersPack}
 					compareCards={compareCard}
 				/>

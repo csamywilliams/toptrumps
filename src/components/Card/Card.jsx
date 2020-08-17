@@ -5,12 +5,12 @@ import { sortCardKeys } from '../../helpers/manipulateCard';
 
 const Card = ({ activeCard, mode, compareCards }) => {
 	const card = sortCardKeys({ ...activeCard });
-	const { name, img, type, ...cardProps } = card;
+	const { name, img, type, id, ...cardProps } = card;
 	const disabled = mode === 'computer' ? true : false;
 
-	const onClick = (key, property, mode) => {
+	const onClick = (id, key, property, mode) => {
 		console.log(key, property);
-		compareCards(key, property, mode);
+		compareCards(id, key, property, mode);
 		// compare score with another card
 		// pass the key, value, mode back to deck
 	};
@@ -24,7 +24,7 @@ const Card = ({ activeCard, mode, compareCards }) => {
 				return (
 					<button
 						key={index}
-						onClick={() => onClick(key, cardProps[key], mode)}
+						onClick={() => onClick(id, key, cardProps[key], mode)}
 						className="card__fact card__row"
 						disabled={disabled}
 					>
