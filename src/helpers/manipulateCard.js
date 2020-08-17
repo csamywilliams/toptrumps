@@ -11,4 +11,13 @@ const sortCardKeys = (data) => {
 	return sortedObj;
 };
 
-export { sortCardKeys };
+const addPropertyToAllObjects = (arr, name, value) => {
+	return arr.map((obj) => {
+		return {
+			...obj,
+			[name]: value,
+		};
+	});
+};
+
+export { sortCardKeys, addPropertyToAllObjects };

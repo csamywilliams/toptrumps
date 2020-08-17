@@ -1,4 +1,4 @@
-import { sortCardKeys } from '../manipulateCard';
+import { sortCardKeys, addPropertyToAllObjects } from '../manipulateCard';
 
 const TEST_CARD = {
 	name: 'test-name',
@@ -25,5 +25,22 @@ describe('sortCardKeys', () => {
 		const result = sortCardKeys(TEST_CARD);
 
 		expect(result).toEqual(expectedResult);
+	});
+});
+
+describe('addPropertyToAllObjects', () => {
+	test('should return an empty array if not items exist in array', () => {
+		const result = addPropertyToAllObjects([], 'property', 1);
+		expect(Object.keys(result).length).toBe(0);
+	});
+
+	test('should return the array with item extended to have a new property and value', () => {
+		const property = 'visible';
+		const value = true;
+
+		const result = addPropertyToAllObjects([TEST_CARD], property, value);
+
+		expect(Object.keys(result).length).toBe(1);
+		expect(result[0][property]).toBe(value);
 	});
 });
