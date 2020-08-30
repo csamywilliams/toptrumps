@@ -5,7 +5,7 @@ const sortCardKeys = (data) => {
 	Object.keys(tempData)
 		.sort()
 		.map((v, i) => {
-			return sortedObj[v] = tempData[v];
+			return (sortedObj[v] = tempData[v]);
 		});
 
 	return sortedObj;

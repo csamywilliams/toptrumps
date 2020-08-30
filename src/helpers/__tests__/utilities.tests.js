@@ -1,4 +1,4 @@
-import { removeFromArray, addToArray } from '../utilities';
+import { removeFromArray, addToArray, shiftFromArray } from '../utilities';
 
 const CARDS = [
 	{
@@ -34,6 +34,13 @@ describe('addToArray', () => {
 	test('should add item to an existing array at the end', () => {
 		const result = addToArray(CARDS, { id: 3 });
 		expect(result.length).toBe(3);
-		expect(result[result.length-1].id).toBe(3)
+		expect(result[result.length - 1].id).toBe(3);
+	});
+});
+
+describe('shiftFromArray', () => {
+	test('should return an array with the first item removed', () => {
+		const result = shiftFromArray([{ name: 'card1' }, { name: 'card2' }]);
+		expect(result.length).toBe(1);
 	});
 });

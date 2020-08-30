@@ -8,6 +8,7 @@ import {
 	isValueSame,
 	removeFromArray,
 	addToArray,
+	shiftFromArray,
 } from '../../helpers/utilities';
 import CONSTANTS from '../../data/constants';
 import CARDS from '../../data/cards';
@@ -32,33 +33,39 @@ const Game = ({ pack }) => {
 		setComputerCard(deckHalved.computer[0]);
 	}, [cards, pack]);
 
-	useEffect(() => {
-		console.log('players turn' + playerTurn);
-	}, [playerTurn]);
+	const updatePacks = (player, computer) => {
+		setComputersPack(computer);
+		setPlayersPack(player);
+	};
+
+	const reorderPack = (pack) => {
+		return addToArray(shiftFromArray(pack), pack[0]);
+	};
 
 	const changePlayerDeck = () => {
 		console.log('playerWon', playerCard.id, computerCard.id);
+
 		const alteredComputersPack = removeFromArray(
-			computersPack,
+			[...computersPack],
 			computerCard.id,
 		);
-		const alteredPlayersPack = addToArray(playersPack, computerCard);
+		const alteredPlayersPack = addToArray([...playersPack], computerCard);
 
-		setPlayersPack(alteredPlayersPack);
-		setComputersPack(alteredComputersPack);
-		removeCardsFromView(playerCard, computerCard);
+		updatePacks(
+			reorderPack(alteredPlayersPack),
+			reorderPack(alteredComputersPack),
+		);
 	};
 
 	const changeComputerDeck = () => {
 		console.log('computerWon', playerCard.id, computerCard.id);
 		const alteredPlayersPack = removeFromArray(playersPack, playersPack.id);
 		const alteredComputersPack = addToArray(computersPack, playerCard);
-
-		setPlayersPack(alteredPlayersPack);
-		setComputersPack(alteredComputersPack);
+		updatePacks(
+			reorderPack(alteredPlayersPack),
+			reorderPack(alteredComputersPack),
+		);
 	};
-
-	const removeCardsFromView = () => {};
 
 	const checkTurn = (card1, card2) => {
 		if (isValueGreater(card1, card2) || isValueSame(card1, card2)) {
@@ -84,10 +91,15 @@ const Game = ({ pack }) => {
 		//changeCards();
 	};
 
+	const computersTurn = (turn) => !turn;
+
+	//TODO: add ability for computer to recursively play when player looses.
+
 	return (
 		<GameStyled>
 			<div>
-				Your cards {playersPack.length}
+				<p>Your cards {playersPack.length}</p>
+				Turn: {playerTurn.toString()}
 				<Deck
 					type={CONSTANTS.PLAYER}
 					pack={playersPack}
@@ -95,7 +107,8 @@ const Game = ({ pack }) => {
 				/>
 			</div>
 			<div>
-				Computer cards {computersPack.length}
+				<p>Computer cards {computersPack.length}</p>
+				Turn: {computersTurn(playerTurn).toString()}
 				<Deck
 					type={CONSTANTS.COMPUTER}
 					pack={computersPack}

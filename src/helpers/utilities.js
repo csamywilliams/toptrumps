@@ -15,4 +15,15 @@ const addToArray = (arr, item) => {
 	return arr;
 };
 
-export { isValueGreater, isValueSame, removeFromArray, addToArray };
+const shiftFromArray = (arr) => {
+	arr.shift();
+	return arr;
+};
+
+export {
+	isValueGreater,
+	isValueSame,
+	removeFromArray,
+	addToArray,
+	shiftFromArray,
+};
